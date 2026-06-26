@@ -19,8 +19,8 @@ process: 'The project was developed through iterative prototyping in p5.js, focu
 outcome: 'Presented as a live interactive installation and web experience, the work transforms individual confessions into a shared visual ecosystem. As submissions accumulate, connect, and disappear over time, the system reveals patterns of collective presence while obscuring individual identity — reflecting on memory, anonymity, and the hidden structures of digital communication.',
 tools: 'HTML, P5.js, JavaScript, Adobe Photoshop, Adobe Illustrator',
     images: {
-      cover: 'cover.jpg',
-      detail: ['detail-01.jpg', 'detail-02.jpg', 'detail-03.jpg', 'detail-04.jpg', 'detail-05.jpg', 'detail-06.jpg', 'detail-07.gif', 'detail-08.jpg','detail-08.png', 'detail-09.jpg', 'detail-010.jpg'],
+      cover: 'cover.webp',
+      detail: ['detail-01.webp', 'detail-02.webp', 'detail-03.webp', 'detail-04.webp', 'detail-05.webp', 'detail-06.webp', 'detail-07.gif', 'detail-08.webp','detail-08.webp', 'detail-09.webp', 'detail-010.webp'],
     },
   },
   {
@@ -37,8 +37,8 @@ tools: 'HTML, P5.js, JavaScript, Adobe Photoshop, Adobe Illustrator',
     outcome: 'The final outcome includes a repositioned brand strategy, archetype framework, visual identity direction, sustainability-led product system, campaign activation concept, and an interactive web experience designed to communicate long-term engagement over short-term consumption.',
     tools: 'Figma, HTML, Javascript, Adobe Illustrator, InDesign',
     images: {
-      cover: 'cover.jpg',
-      detail: ['detail-01.png', 'detail-02.png', 'detail-03.png', 'detail-04.png', 'detail-05.jpg', 'detail-06.png' , 'detail-07.png', 'detail-08.png' , 'detail-09.png', 'detail-10.mp4', 'detail-11.png' , 'detail-12.png'],
+      cover: 'cover.webp',
+      detail: ['detail-01.webp', 'detail-02.webp', 'detail-03.webp', 'detail-04.webp', 'detail-05.webp', 'detail-06.webp' , 'detail-07.webp', 'detail-08.webp' , 'detail-09.webp', 'detail-10.mp4', 'detail-11.webp' , 'detail-12.webp'],
     },
     detailImageStyles: [
       { objectPosition: 'center center' },
@@ -58,8 +58,8 @@ tools: 'HTML, P5.js, JavaScript, Adobe Photoshop, Adobe Illustrator',
     process: 'The project began with a series of computational experiments in p5.js, testing particle systems, geometric forms, radial structures, glow effects, fractal patterns, and fluid simulations driven by real-time microphone input. Using FFT analysis and amplitude mapping, I developed multiple visual systems that responded dynamically to bass, mid, and treble frequencies. Following user feedback, the concept evolved from a standalone visualisation tool into a social platform featuring personalised profiles, artwork feeds, collaborative creation boards, and emotion-based interactions. Wireframes, interface prototypes, and mobile mockups were developed to refine the overall user experience while integrating generative visuals into a cohesive digital product.',
     outcome: 'The final outcome is an interactive web platform where users transform sound into unique visual artworks, archive personal creations, and collaborate with others through shared compositions. By combining creative coding, computational graphics, and interface design, the project demonstrates how generative systems can support meaningful emotional expression beyond traditional data-driven visualisation.',    tools: 'p5.js, Web Audio API, JavaScript',
     images: {
-      cover: 'cover.jpg',
-      detail: ['detail-01.jpg', 'detail-02.jpg', 'detail-03.jpg', 'detail-04.png', 'detail-05.png', 'detail-06.png', 'detail-07.png', 'detail-08.png', 'detail-09.jpg'],
+      cover: 'cover.webp',
+      detail: ['detail-01.webp', 'detail-02.webp', 'detail-03.webp', 'detail-04.webp', 'detail-05.webp', 'detail-06.webp', 'detail-07.webp', 'detail-08.webp', 'detail-09.webp'],
     },
   },
   {
@@ -75,8 +75,8 @@ tools: 'HTML, P5.js, JavaScript, Adobe Photoshop, Adobe Illustrator',
     outcome: 'A 12-post Instagram campaign that gained organic engagement from urban planning and architecture communities. A live performance was held at a rooftop venue in Chicago.',
     tools: 'Adobe Illustrator, Photoshop, InDesign',
     images: {
-      cover: 'cover.jpg',
-      detail: ['detail-01.jpg', 'detail-02.jpg', 'detail-03.jpg', 'detail-04.jpg', 'detail-05.jpg', 'detail-06.jpg','detail-07.png', 'detail-08.png', 'detail-09.png', 'detail-10.png'],
+      cover: 'cover.webp',
+      detail: ['detail-01.webp', 'detail-02.webp', 'detail-03.webp', 'detail-04.webp', 'detail-05.webp', 'detail-06.webp','detail-07.webp', 'detail-08.webp', 'detail-09.webp', 'detail-10.webp'],
     },
     subprojects: [
       {
@@ -108,8 +108,8 @@ tools: 'HTML, P5.js, JavaScript, Adobe Photoshop, Adobe Illustrator',
     outcome: 'The final film presents a layered motion portrait where personal objects, fragmented imagery, and dynamic editing merge into a shared visual identity. Rather than defining each participant explicitly, the project encourages viewers to construct their own interpretations of who we are through observation and association.',
     tools: 'Adobe Premier Pro, Photoshop, Indesign',
     images: {
-      cover: 'cover.jpg',
-      detail: ['detail-01.jpg', 'detail-02.jpg', 'detail-03.jpg', 'detail-04.jpg', 'detail-05.mp4', 'detail-06.jpg'],
+      cover: 'cover.webp',
+      detail: ['detail-01.webp', 'detail-02.webp', 'detail-03.webp', 'detail-04.webp', 'detail-05.mp4', 'detail-06.webp'],
     },
   },
   {
@@ -125,8 +125,8 @@ tools: 'HTML, P5.js, JavaScript, Adobe Photoshop, Adobe Illustrator',
     outcome: 'The final project presents a cohesive visual language that bridges abstract art and information design. By combining computational methods with artistic analysis, it demonstrates how data visualisation can move beyond functional communication to create meaningful and engaging visual experiences.',
     tools: 'Python (Matplotlib), Adobe Illustrator, InDesign, HTML/CSS',
     images: {
-      cover: 'cover.jpg',
-      detail: ['detail-01.jpg', 'detail-02.jpg', 'detail-03.jpg', 'detail-04.jpg', 'detail-05.jpg', 'detail-06.jpg', 'detail-07.jpg'],
+      cover: 'cover.webp',
+      detail: ['detail-01.webp', 'detail-02.webp', 'detail-03.webp', 'detail-04.webp', 'detail-05.webp', 'detail-06.webp', 'detail-07.webp'],
     },
   },
 ];
