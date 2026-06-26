@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>INPUT TERMINAL</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root{
+  --bg: #020305;
+  --cyan: rgba(0, 210, 230, 0.86);
+  --cyan-soft: rgba(0, 210, 230, 0.56);
+  --cyan-dim: rgba(0, 210, 230, 0.28);
+  --cyan-faint: rgba(0, 210, 230, 0.12);
+  --cyan-line: rgba(110, 220, 245, 0.75);
+  --red: rgba(255, 70, 70, 0.78);
+
+  --preview-pad-x: 28px;
+  --glyph-size: 28px;
+  --glyph-gap: 8px;
+  --caret-w: 2px;
+}
+
+html, body{
+  width:100%;
+  height:100%;
+}
+
+body{
+  background: var(--bg);
+  color: var(--cyan);
+  font-family: 'Share Tech Mono', 'Courier New', monospace;
+  letter-spacing: 0.08em;
+  overflow: hidden;
+}
+
+#ui{
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  pointer-events: none;
+  transform: translateY(-28px);
+}
+
+#q{
+  text-align: center;
+  font-size: clamp(17px, 1.5vw, 28px);
+  line-height: 1.9;
+  letter-spacing: 0.24em;
+  color: rgba(0, 210, 230, 0.72);
+  text-shadow: 0 0 12px rgba(0, 180, 220, 0.08);
+  margin-bottom: 48px;
+}
+
+#input-wrapper{
+  position: relative;
+  width: min(820px, 72vw);
+  margin-bottom: 18px;
+  pointer-events: auto;
+}
+
+#prompt-label{
+  position: absolute;
+  top: -24px;
+  left: 0;
+  font-size: 18px;
+  letter-spacing: 0.18em;
+  color: var(--red);
+  pointer-events: none;
+}
+
+#input-shell{
+  position: relative;
+  width: 100%;
+  height: 88px;
+  border: 1px solid rgba(0, 210, 230, 0.58);
+  background:
+    linear-gradient(to bottom, rgba(0, 210, 230, 0.035), rgba(0, 210, 230, 0.01)),
+    rgba(0, 12, 18, 0.36);
+  box-shadow:
+    inset 0 0 34px rgba(0, 120, 160, 0.08),
+    0 0 24px rgba(0, 120, 160, 0.05);
+  overflow: hidden;   /* keeps corner frame intact, clips overflowing track */
+  cursor: text;
+}
+
+#input-shell::before,
+#input-shell::after,
+#corner-bl,
+#corner-br{
+  content:"";
+  position:absolute;
+  width:16px;
+  height:16px;
+  pointer-events:none;
+  z-index:8;
+}
+
+#input-shell::before{
+  top:-1px;
+  left:-1px;
+  border-top:3px solid rgba(160,235,255,0.82);
+  border-left:3px solid rgba(160,235,255,0.82);
+}
+
+#input-shell::after{
+  top:-1px;
+  right:-1px;
+  border-top:3px solid rgba(160,235,255,0.82);
+  border-right:3px solid rgba(160,235,255,0.82);
+}
+
+#corner-bl{
+  bottom:-1px;
+  left:-1px;
+  border-bottom:3px solid rgba(160,235,255,0.82);
+  border-left:3px solid rgba(160,235,255,0.82);
+}
+
+#corner-br{
+  bottom:-1px;
+  right:-1px;
+  border-bottom:3px solid rgba(160,235,255,0.82);
+  border-right:3px solid rgba(160,235,255,0.82);
+}
+
+#textInput{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0 var(--preview-pad-x);
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: transparent;
+  caret-color: transparent;
+  font-family: inherit;
+  font-size: 28px;
+  letter-spacing: 0;
+  text-align: left;
+  -webkit-appearance: none;
+  z-index: 2;
+}
+
+#textInput::placeholder{
+  color: transparent;
+}
+
+#patternPreview{
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+#patternTrack{
+  position: absolute;
+  top: 0;
+  left: 0;          /* JS slides this value */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--glyph-gap);
+  padding-left: var(--preview-pad-x);
+  padding-right: var(--preview-pad-x);
+  white-space: nowrap;
+  will-change: left;
+}
+
+.preview-glyph{
+  position:relative;
+  width:var(--glyph-size);
+  height:var(--glyph-size);
+  flex:0 0 auto;
+  opacity:0;
+  transform: translateY(2px);
+  animation: glyphIn 140ms ease-out forwards;
+}
+
+.preview-cell{
+  position:absolute;
+  width:3px;
+  height:3px;
+  background: rgba(145, 242, 255, 0.96);
+  box-shadow:
+    0 0 6px rgba(0, 210, 230, 0.28),
+    0 0 12px rgba(0, 210, 230, 0.14);
+}
+
+#ghostText{
+  position:absolute;
+  left:var(--preview-pad-x);
+  right:var(--preview-pad-x);
+  top:50%;
+  transform:translateY(-50%);
+  font-size:20px;
+  letter-spacing:0.18em;
+  color: rgba(0, 210, 230, 0.14);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  z-index:3;
+  pointer-events:none;
+}
+
+#previewCaret{
+  position:absolute;
+  top:50%;
+  left:0;
+  width:var(--caret-w);
+  height:30px;
+  transform:translateY(-50%);
+  background: rgba(0, 235, 255, 0.92);
+  box-shadow:
+    0 0 8px rgba(0, 210, 230, 0.26),
+    0 0 16px rgba(0, 210, 230, 0.14);
+  z-index:7;
+  pointer-events:none;
+  opacity:1;
+}
+
+#previewCaret.hidden{
+  opacity:0;
+}
+
+#previewCaret.blink{
+  animation: caretBlink 1s steps(1) infinite;
+}
+
+@keyframes caretBlink{
+  0%, 45% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes glyphIn{
+  to{
+    opacity:1;
+    transform: translateY(0);
+  }
+}
+
+.glitch-burst{
+  position:absolute;
+  inset:0;
+  z-index:6;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.glitch-glyph{
+  position:absolute;
+  width:var(--glyph-size);
+  height:var(--glyph-size);
+}
+
+.glitch-glyph .preview-cell{
+  animation: cellBurst 340ms cubic-bezier(.2,.75,.2,1) forwards;
+  animation-delay: var(--delay, 0ms);
+}
+
+@keyframes cellBurst{
+  0%{
+    opacity:1;
+    transform: translate(0,0) scale(1);
+    filter: blur(0);
+  }
+  30%{
+    opacity:1;
+    transform:
+      translate(calc(var(--dx, 0px) * .35), calc(var(--dy, 0px) * .35))
+      scale(1.05);
+  }
+  100%{
+    opacity:0;
+    transform:
+      translate(var(--dx, 0px), var(--dy, 0px))
+      scale(.55);
+    filter: blur(1px);
+  }
+}
+
+#hint{
+  font-size: 18px;
+  letter-spacing: 0.18em;
+  color: rgba(0, 210, 230, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+#hint::before,
+#hint::after{
+  content:'//';
+  color: rgba(0,210,230,0.18);
+}
+
+kbd{
+  padding: 3px 10px;
+  border: 1px solid rgba(0,210,230,0.42);
+  color: rgba(0,220,255,0.92);
+  background: rgba(0,210,230,0.08);
+  font-family: inherit;
+  font-size: 18px;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 8px rgba(0,210,230,0.28);
+  box-shadow: inset 0 0 12px rgba(0,210,230,0.06);
+}
+
+#status-bar{
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  color: rgba(0, 210, 230, 0.28);
+  z-index: 20;
+  white-space: nowrap;
+  animation: blink 3s ease-in-out infinite;
+}
+
+@keyframes blink{
+  0%,100% { opacity: 0.35; }
+  50%     { opacity: 0.85; }
+}
+
+@media (max-width: 900px){
+  :root{
+    --preview-pad-x: 22px;
+    --glyph-size: 24px;
+    --glyph-gap: 7px;
+  }
+
+  #ui{
+    transform: translateY(-16px);
+  }
+
+  #input-wrapper{
+    width:min(92vw, 820px);
+  }
+
+  #input-shell{
+    height:78px;
+  }
+
+  #prompt-label{
+    font-size:14px;
+    top:-20px;
+  }
+
+  #hint,
+  kbd{
+    font-size:14px;
+  }
+
+  .preview-cell{
+    width:3px;
+    height:3px;
+  }
+
+  #previewCaret{
+    height:26px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="ui">
+  <div id="q">
+    Enter text here that you would<br>
+    never share with others.
+  </div>
+
+  <div id="input-wrapper">
+    <div id="prompt-label">ENCRYPT_INPUT &gt;</div>
+
+    <div id="input-shell">
+      <span id="corner-bl"></span>
+      <span id="corner-br"></span>
+
+      <div id="ghostText">TYPE_HERE...</div>
+
+      <div id="patternPreview">
+        <div id="patternTrack"></div>
+      </div>
+
+      <div id="previewCaret" class="blink"></div>
+
+      <input
+        id="textInput"
+        autocomplete="off"
+        spellcheck="false"
+        maxlength="27"
+      />
+    </div>
+  </div>
+
+  <div id="hint">PRESS <kbd>ENTER</kbd> TO TRANSMIT</div>
+</div>
+
+<div id="status-bar">▸ AWAITING_INPUT...</div>
+
+<script type="module" src="./a.js"></script>
+</body>
+</html>

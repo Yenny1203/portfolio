@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Yenny Koh — Visual Communication Designer based in Seoul & Chicago. Graphic design, interactive systems, brand strategy.">
+  <title>Yenny Koh — Visual Communication Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@200;300;400;500;600;700&family=Zalando+Sans+Expanded:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div id="cursor"></div>
+
+  <!-- Loading screen -->
+  <div id="loading">
+    <div class="loading-name">Yenny Koh</div>
+    <div class="loading-bar-wrap">
+      <div class="loading-bar"></div>
+    </div>
+  </div>
+
+  <!-- ── Navigation ─────────────────────────────────────── -->
+  <nav id="nav">
+    <div class="nav-logo">Yenny Koh</div>
+    <div class="nav-links">
+      <button id="info-trigger" type="button">Info</button>
+    </div>
+  </nav>
+
+  <!-- ── Carousel scene ─────────────────────────────────── -->
+  <section id="carousel-scene" aria-label="Portfolio projects">
+    <div class="carousel-orbit" aria-hidden="true">
+      <div class="carousel-orbit-ring"></div>
+      <div class="carousel-orbit-axis"></div>
+    </div>
+    <div id="cylinder-wrapper">
+      <div id="cards-container">
+        <!-- Cards are injected by carousel.js -->
+      </div>
+    </div>
+  </section>
+
+  <div id="active-title" aria-hidden="true">
+    <span class="title-main">Encrypted Entries</span>
+    <span class="title-sub">Interactive / Generative</span>
+  </div>
+
+
+  <!-- ── Status bar ─────────────────────────────────────── -->
+  <footer id="status-bar">
+    <div class="status-left">Seoul / Chicago — 2026</div>
+
+    <div class="status-center">
+      <div class="scroll-hint">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </div>
+
+    <div class="status-right">
+      <div class="project-counter">
+        <span class="current">01</span> / 06
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── Detail overlay (populated by JS) ──────────────── -->
+  <div id="detail-overlay" role="dialog" aria-modal="true" aria-label="Project detail"></div>
+
+  <!-- ── Info overlay ───────────────────────────────────── -->
+  <div id="info-overlay" role="dialog" aria-modal="true" aria-label="Info">
+    <button class="info-close" type="button" onclick="closeInfo()">
+      <svg viewBox="0 0 24 24" stroke-width="1.5">
+        <path d="M6 6l12 12M18 6L6 18"/>
+      </svg>
+      Close
+    </button>
+
+    <div class="info-content">
+      <div class="info-header">
+        <div class="detail-eyebrow">Info</div>
+        <h1 class="info-title">Yenny Koh</h1>
+      </div>
+
+      <div class="info-section">
+        <div class="section-label">Artist Statement</div>
+        <p class="section-body">I’m a graphic designer based in Chicago, currently studying Visual Communication Design at the School of the Art Institute of Chicago. My work spans visual identity, exhibition design, and cultural programming, shaped by hands-on experience in museums, curatorial projects, and design studios. I am interested in how graphic systems, spatial design, and collaboration can translate complex ideas into clear and engaging public experiences.</p>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-section">
+          <div class="section-label">Education</div>
+          <div class="info-stack">
+            <div class="info-entry">
+              <h2 class="info-entry-title">School of the Art Institute of Chicago (SAIC)</h2>
+              <p class="info-entry-body">Majoring in Visual Communication Design
+Bachelor’s Degree (2022-2026)</p>
+            </div>
+            <div class="info-entry">
+              <h2 class="info-entry-title">Central Saint Martins, University of the Arts London</h2>
+              <p class="info-entry-body">Majoring in Graphic Communication Design
+Full-time Exchange Student (Sep 2024 - Jun 2025)</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="section-label">Experiences</div>
+          <div class="info-stack">
+            <div class="info-entry">
+              <h2 class="info-entry-title">Graphic Design Intern, Design Museum of Chicago</h2>
+              <p class="info-entry-body">Chicago, IL
+Jan 2026 - May 2026</p>
+            </div>
+            <div class="info-entry">
+              <h2 class="info-entry-title">Intern Designer, Grady Campbell Inc.</h2>
+              <p class="info-entry-body">Chicago, IL
+Aug 2025 - Dec 2025</p>
+            </div>
+            <div class="info-entry">
+              <h2 class="info-entry-title">Intern Painter, Louis Vuitton Maison</h2>
+              <p class="info-entry-body">Hong Kong
+Dec 2020 - Jun 2022</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="section-label">Contact</div>
+        <div class="info-contact">
+          <p class="info-entry-body">(+1) 872-368-0182</p>
+          <p class="info-entry-body"><a href="mailto:yenny1203@gmail.com">yenny1203@gmail.com</a></p>
+          <p class="info-entry-body"><a href="https://www.linkedin.com/in/yenny-koh-96764233a/" target="_blank" rel="noopener">LinkedIn</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Scripts ────────────────────────────────────────── -->
+  <script src="scripts/sketch-encrypted.js"></script>
+  <script src="scripts/carousel.js"></script>
+
+</body>
+</html>
