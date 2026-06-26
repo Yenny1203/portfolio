@@ -1411,7 +1411,7 @@ img {
 @media (max-width: 900px) {
   :root {
     --carousel-card-width: 272px;
-    --carousel-card-height: 204px;
+    --carousel-card-height: 183px;
     --carousel-radius: 520px;
   }
 
@@ -1499,8 +1499,9 @@ img {
 @media (max-width: 600px) {
   :root {
     --carousel-card-width: 244px;
-    --carousel-card-height: 183px;
+    --carousel-card-height: 164px;
     --carousel-radius: 390px;
+    --carousel-title-reserve: 30px;
   }
 
   #carousel-scene {
@@ -1568,18 +1569,29 @@ img {
   }
 
   #active-title {
-    bottom: 168px;
+    bottom: 116px;
     width: calc(100vw - 40px);
+    min-height: 124px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    row-gap: 12px;
   }
 
   #active-title .title-main {
     font-size: 30px;
+    line-height: 1.08;
     white-space: normal;
+    max-width: min(88vw, 560px);
+    text-wrap: balance;
   }
 
   #active-title .title-sub {
     font-size: 12px;
-    margin-top: 0.7rem;
+    margin-top: 0;
+    line-height: 1.2;
+    letter-spacing: 0.14em;
   }
 
   .project-card.is-adjacent::after {

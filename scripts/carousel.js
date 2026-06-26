@@ -26,6 +26,7 @@ tools: 'HTML, P5.js, JavaScript, Adobe Photoshop, Adobe Illustrator',
   {
     id: 'quiksilver',
     title: 'Quiksilver Repositioning',
+    mobileTitle: 'Quiksilver',
     category: 'Brand Strategy',
     year: '2025',
     designer: 'Team Project',
@@ -457,6 +458,8 @@ function setCarouselIndex(index, instant = false) {
 
 function updateCarousel(instant = false) {
   const activeProject = PROJECTS[state.currentIndex];
+  const isMobileViewport = window.matchMedia('(max-width: 600px)').matches;
+  const displayTitle = isMobileViewport && activeProject?.mobileTitle ? activeProject.mobileTitle : activeProject?.title;
 
   // Rotate the container
   cardsContainer.style.transition = instant ? 'none' : 'transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
@@ -485,7 +488,7 @@ function updateCarousel(instant = false) {
 
   if (activeTitleEl && activeProject) {
     activeTitleEl.innerHTML = `
-      <span class="title-main">${activeProject.title}</span>
+      <span class="title-main">${displayTitle}</span>
       <span class="title-sub">${activeProject.category}</span>
     `;
   }
