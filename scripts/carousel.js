@@ -20,7 +20,7 @@ outcome: 'Presented as a live interactive installation and web experience, the w
 tools: 'HTML, P5.js, JavaScript, Adobe Photoshop, Adobe Illustrator',
     images: {
       cover: 'cover.webp',
-      detail: ['detail-01.webp', 'detail-02.webp', 'detail-03.webp', 'detail-04.webp', 'detail-05.webp', 'detail-06.webp', 'detail-07.gif', 'detail-08.webp','detail-08.webp', 'detail-09.webp', 'detail-010.webp'],
+      detail: ['detail-01.webp', 'detail-02.webp', 'detail-03.webp', 'detail-04.webp', 'detail-05.webp', 'detail-06.webp', 'detail-07.gif', 'detail-08.webp', 'detail-09.webp', 'detail-10.webp', 'detail-11.webp'],
     },
   },
   {
@@ -479,7 +479,7 @@ function updateCarousel(instant = false) {
     } else if (absDiff === 1) {
       card.classList.add('is-adjacent');
       card.dataset.navLabel = normalized < 0 ? 'PREV' : 'NEXT';
-      card.style.filter = 'brightness(0.55) blur(1px)';
+      card.style.filter = 'brightness(0.68) blur(1px)';
     } else {
       card.classList.add('is-far');
       card.style.filter = 'brightness(0.25) blur(2px)';
@@ -509,9 +509,6 @@ function onWheel(e) {
 
   scrollAccum += e.deltaX !== 0 ? e.deltaX : e.deltaY;
 
-  // Hide scroll hint after first scroll
-  if (scrollHint) scrollHint.classList.add('hidden');
-
   // Clear timer & debounce
   clearTimeout(scrollTimer);
   scrollTimer = setTimeout(() => {
@@ -519,6 +516,7 @@ function onWheel(e) {
       const dir = scrollAccum > 0 ? 1 : -1;
       setCarouselIndex(state.currentIndex + dir);
       updateCarousel(false);
+      if (scrollHint) scrollHint.classList.add('hidden');
     }
     scrollAccum = 0;
   }, 50);
@@ -610,6 +608,7 @@ function openDetail(index) {
       : isChicagoSky && detailIndex === 6
         ? 'History of the Kyungbokgung Palace'
         : '';
+    const isResonateDetail1FullWidth = project.id === 'resonate' && detailIndex === 0 && !extraClass;
     const isResonateDetail1 = project.id === 'resonate' && detailIndex === 0 && !extraClass;
     const isResonatePrimaryFullWidth = project.id === 'resonate' && detailIndex === 2 && !extraClass;
     const isResonateMidFullWidth = project.id === 'resonate' && detailIndex >= 3 && detailIndex <= 5 && !extraClass;
@@ -621,7 +620,7 @@ function openDetail(index) {
     const isChicagoSkyShrink = project.id === 'chicago-sky' && detailIndex === 1 && !extraClass;
     const isLastOddImage = detailImgs.length % 2 === 1 && detailIndex === detailImgs.length - 1;
     const styleAttr = createDetailImageStyleAttr(detailImageStyles[detailIndex]);
-    const fullWidthClass = (isResonatePrimaryFullWidth || isResonateMidFullWidth || isBookDesignFullWidth || isBookDesignVideoFullWidth || isBookDesignDetail6FullWidth || isChicagoSkyFullWidth || isVisualSystemTailFullWidth || (isLastOddImage && !extraClass)) ? ' full-width' : '';
+    const fullWidthClass = (isResonateDetail1FullWidth || isResonatePrimaryFullWidth || isResonateMidFullWidth || isBookDesignFullWidth || isBookDesignVideoFullWidth || isBookDesignDetail6FullWidth || isChicagoSkyFullWidth || isVisualSystemTailFullWidth || (isLastOddImage && !extraClass)) ? ' full-width' : '';
     const className = `process-img${fullWidthClass}${isChicagoSky ? ' process-img-chicago' : ''}${isResonateDetail1 ? ' process-img-resonate-transparent' : ''}${isChicagoSkyShrink ? ' process-img-chicago-shrink' : ''}${extraClass ? ` ${extraClass}` : ''}`;
 
     return `
@@ -632,7 +631,12 @@ function openDetail(index) {
   };
 
   const primaryDetailImgs = project.id === 'resonate' ? detailImgs.slice(0, 3) : detailImgs;
-  const processItems = primaryDetailImgs.map((detailImg, detailIndex) => buildProcessItem(detailImg, detailIndex));
+  const processItems = project.id === 'resonate'
+    ? [
+        detailImgs[0] ? buildProcessItem(detailImgs[0], 0) : '',
+        detailImgs[2] ? buildProcessItem(detailImgs[2], 2) : '',
+      ].filter(Boolean)
+    : primaryDetailImgs.map((detailImg, detailIndex) => buildProcessItem(detailImg, detailIndex));
 
   if (project.id === 'encrypted-entries') {
     processItems.length = 0;
@@ -664,22 +668,13 @@ function openDetail(index) {
   if (project.id === 'chicago-sky' && detailImgs.length > 1) {
     const chicagoSections = project.subprojects || [];
     const firstChicagoItems = [
-      `
-        <div class="process-grid-two chicago-sky-pair chicago-sky-pair-wide">
-          ${detailImgs.slice(0, 2).map((detailImg, pairIndex) => buildProcessItem(detailImg, pairIndex)).join('')}
-        </div>`,
-      `
-        <div class="process-grid-two chicago-sky-pair">
-          ${detailImgs.slice(2, 4).map((detailImg, pairIndex) => buildProcessItem(detailImg, pairIndex + 2)).join('')}
-        </div>`,
+      buildProcessItem(detailImgs[0], 0, 'full-width'),
+      buildProcessItem(detailImgs[2], 2, 'full-width'),
       buildProcessItem(detailImgs[4], 4),
       buildProcessItem(detailImgs[5], 5),
     ];
     const secondChicagoItems = [
-      `
-        <div class="process-grid-two">
-          ${detailImgs.slice(6, 8).map((detailImg, endIndex) => buildProcessItem(detailImg, endIndex + 6, 'process-img-third')).join('')}
-        </div>`,
+      buildProcessItem(detailImgs[6], 6, 'full-width'),
       buildProcessItem(detailImgs[8], 8),
       detailImgs[9] ? buildProcessItem(detailImgs[9], 9) : '',
     ];
@@ -1041,4 +1036,7 @@ function bindEvents() {
   });
 
   document.getElementById('info-trigger')?.addEventListener('click', openInfo);
+  infoOverlay?.addEventListener('click', (e) => {
+    if (e.target === infoOverlay) closeInfo();
+  });
 }

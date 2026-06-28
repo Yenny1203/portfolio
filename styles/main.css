@@ -5,7 +5,7 @@
 
 /* --- Tokens ------------------------------------------------ */
 :root {
-  --bg: #ffffff;
+  --bg: #F2F1ED;
   --surface: #f5f5f5;
   --border: rgba(0,0,0,0.1);
   --text-primary: #111111;
@@ -44,7 +44,6 @@ html {
 
 body {
   background: var(--bg);
-  background-color: #F2F1ED;
   color: var(--text-primary);
   font-family: var(--font-sans);
   font-weight: 300;
@@ -339,8 +338,8 @@ img {
   position: absolute;
   inset: -26px;
   border-radius: 36px;
-  background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.06) 26%, rgba(0,0,0,0.02) 48%, transparent 74%);
-  filter: blur(26px);
+  background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.08) 0%, transparent 70%);
+  filter: blur(18px);
   opacity: 0;
   transform: scale(0.9);
   transition: opacity 0.6s ease, transform 0.6s var(--ease-out-expo);
@@ -369,7 +368,7 @@ img {
 }
 
 .card-image img {
-  transform: scale(1.05);
+  transform: scale(1.0);
   transition: transform 0.8s var(--ease-out-expo);
   filter: brightness(0.75) saturate(0.85);
   transition: transform 0.8s var(--ease-out-expo), filter 0.8s ease;
@@ -407,7 +406,7 @@ img {
 /* ACTIVE card (center, facing user) */
 .project-card.is-active .card-image img {
   transform: scale(1);
-  filter: brightness(0.85) saturate(1);
+  filter: brightness(0.92) saturate(1);
 }
 
 .project-card.is-active::before {
@@ -427,7 +426,7 @@ img {
 
 /* Side cards - dimmed */
 .project-card.is-adjacent {
-  opacity: 0.6;
+  opacity: 0.75;
   pointer-events: auto;
 }
 
@@ -484,7 +483,6 @@ img {
   text-transform: uppercase;
   color: rgba(0,0,0,0.44);
   display: block;
-  opacity: 0.4;
   margin-top: 0.5rem;
 }
 
@@ -665,7 +663,7 @@ img {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-label);
-  cursor: pointer;
+  cursor: none;
   transition: color 0.3s ease;
   background: none;
   border: none;
@@ -693,6 +691,10 @@ img {
   max-width: 1100px;
   margin: 0 auto;
   padding: 120px 60px 100px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.55s var(--ease-out-expo),
+              transform 0.65s var(--ease-out-expo);
 }
 
 /* Hero */
@@ -735,7 +737,7 @@ img {
   object-fit: contain;
   object-position: center center;
   background: var(--surface);
-  filter: brightness(0.9);
+  filter: brightness(1.0);
   transform: none;
   transition: transform 1.2s var(--ease-out-expo);
 }
@@ -746,6 +748,11 @@ img {
 
 #detail-overlay.open .detail-hero img {
   transform: none;
+}
+
+#detail-overlay.open .detail-content {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Header block */
@@ -939,21 +946,22 @@ img {
 }
 
 .process-grid-two.chicago-sky-pair {
+  grid-template-columns: 1fr 1fr;
   align-items: stretch;
-}
-
-.process-grid-two.chicago-sky-pair.chicago-sky-pair-wide {
-  grid-template-columns: 4fr 1fr;
+  height: 500px;
 }
 
 .process-grid-two.chicago-sky-pair .process-img {
   height: 100%;
+  overflow: hidden;
 }
 
 .process-grid-two.chicago-sky-pair .process-img img,
 .process-grid-two.chicago-sky-pair .process-img video {
+  width: 100%;
   height: 100%;
   object-fit: contain;
+  object-position: top center;
 }
 
 .process-grid-two.chicago-sky-pair .process-img-chicago-shrink {
@@ -1146,9 +1154,9 @@ img {
 .process-img::after {
   content: '';
   position: absolute;
-  inset: 8px;
+  inset: -8px;
   border: 1px dashed rgba(0,0,0,0.28);
-  border-radius: 2px;
+  border-radius: 8px;
   opacity: 0;
   transition: opacity 0.25s ease;
   pointer-events: none;
