@@ -1219,6 +1219,14 @@ img {
   border: none;
 }
 
+.process-embed-preview-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: top center;
+}
+
 .process-embed-scaled {
   --embed-scale: 0.68;
 }
@@ -1523,6 +1531,13 @@ img {
 
   .interactive-open {
     white-space: normal;
+  }
+
+  .process-embed-scaled .process-embed-frame,
+  .detail-hero-interactive .process-embed-frame {
+    width: 100%;
+    height: 100%;
+    transform: none;
   }
 
   .detail-back,

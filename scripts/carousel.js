@@ -216,14 +216,30 @@ function renderDetailMedia(filePath, altText, fallbackSrc) {
           </video>`;
 }
 
+function isMobileViewport() {
+  return typeof window !== 'undefined' && window.matchMedia('(max-width: 600px)').matches;
+}
+
 function renderInteractiveEmbed(src, title, options = {}) {
   const {
     extraClass = '',
     scale = 0.68,
     aspectRatio = '16 / 9',
     label = 'LIVE DEMO',
+    mobilePreview = '',
   } = options;
   const className = `process-embed process-embed-scaled${extraClass ? ` ${extraClass}` : ''}`;
+  const isMobilePreviewMode = mobilePreview && isMobileViewport();
+  const displayLabel = isMobilePreviewMode ? 'DESKTOP RECOMMENDED' : label;
+  const displayNote = isMobilePreviewMode ? 'Mobile preview only' : 'Interactive';
+  const mobilePreviewMarkup = isMobilePreviewMode
+    ? `<img class="process-embed-preview-image" src="${mobilePreview}" alt="${title} mobile preview">`
+    : `<iframe
+                class="process-embed-frame"
+                src="${src}"
+                title="${title} interactive preview"
+                allow="microphone; autoplay"
+              ></iframe>`;
 
   return `
         <div class="process-embed-block">
@@ -235,20 +251,15 @@ function renderInteractiveEmbed(src, title, options = {}) {
                   <span></span>
                   <span></span>
                 </span>
-                <span class="interactive-pill">${label}</span>
+                <span class="interactive-pill">${displayLabel}</span>
               </div>
               <a class="interactive-open" href="${src}" target="_blank" rel="noopener">Open full experience ↗</a>
             </div>
             <div class="${className}" style="--embed-scale:${scale};--embed-aspect-ratio:${aspectRatio};">
-              <iframe
-                class="process-embed-frame"
-                src="${src}"
-                title="${title} interactive preview"
-                allow="microphone; autoplay"
-              ></iframe>
+              ${mobilePreviewMarkup}
             </div>
           </div>
-          <div class="interactive-note">Interactive</div>
+          <div class="interactive-note">${displayNote}</div>
         </div>`;
 }
 
@@ -640,8 +651,14 @@ function openDetail(index) {
 
   if (project.id === 'encrypted-entries') {
     processItems.length = 0;
-    processItems.unshift(renderInteractiveEmbed('encrypted-entries/a.html', project.title, { scale: 0.68 }));
-    processItems.splice(1, 0, renderInteractiveEmbed('encrypted-entries/b.html', project.title, { scale: 0.68 }));
+    processItems.unshift(renderInteractiveEmbed('encrypted-entries/a.html', project.title, {
+      scale: 0.68,
+      mobilePreview: getProjectImagePath(project, 'mobile-preview-1.webp'),
+    }));
+    processItems.splice(1, 0, renderInteractiveEmbed('encrypted-entries/b.html', project.title, {
+      scale: 0.68,
+      mobilePreview: getProjectImagePath(project, 'mobile-preview-2.webp'),
+    }));
     processItems.push(
       renderProcessCaptionBlock(`
         <div class="process-grid-three">
@@ -711,7 +728,10 @@ function openDetail(index) {
   if (project.id === 'quiksilver') {
     processItems.length = 0;
     processItems.push(
-      renderInteractiveEmbed('https://yenny1203.github.io/quiksilversi1/', project.title, { scale: 0.51 }),
+      renderInteractiveEmbed('https://yenny1203.github.io/quiksilversi1/', project.title, {
+        scale: 0.51,
+        mobilePreview: getProjectImagePath(project, 'mobile-preview.webp'),
+      }),
       `
         <div class="process-grid-three">
           ${detailImgs.slice(0, 3).map((detailImg, detailIndex) => buildProcessItem(detailImg, detailIndex)).join('')}
@@ -733,7 +753,10 @@ function openDetail(index) {
   }
 
   if (project.id === 'resonate') {
-    processItems.push(renderInteractiveEmbed('https://yenny1203.github.io/resonate/', project.title, { scale: 0.68 }));
+    processItems.push(renderInteractiveEmbed('https://yenny1203.github.io/resonate/', project.title, {
+      scale: 0.68,
+      mobilePreview: getProjectImagePath(project, 'mobile-preview.webp'),
+    }));
   }
 
   if (project.id === 'visual-system' && processItems.length > 3) {
@@ -745,7 +768,10 @@ function openDetail(index) {
           ${detailImgs.slice(2, 4).map((detailImg, pairIndex) => buildProcessItem(detailImg, pairIndex + 2)).join('')}
         </div>`
     );
-    processItems.splice(4, 0, renderInteractiveEmbed('https://kohgumaa.neocities.org/information%20and%20system/', project.title, { scale: 0.60 }));
+    processItems.splice(4, 0, renderInteractiveEmbed('https://kohgumaa.neocities.org/information%20and%20system/', project.title, {
+      scale: 0.60,
+      mobilePreview: getProjectImagePath(project, 'mobile-preview.webp'),
+    }));
   }
 
   const processGridMarkup = processItems.join('');
