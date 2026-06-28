@@ -873,7 +873,9 @@ function openDetail(index) {
 
     if (project.id === 'encrypted-entries') {
       setupEncryptedEntriesBridge();
-      setTimeout(() => initEncryptedSketch(), 400);
+      if (typeof initEncryptedSketch === 'function') {
+        setTimeout(() => initEncryptedSketch(), 400);
+      }
     }
   });
 }
@@ -886,7 +888,9 @@ function closeDetail() {
   document.body.style.cursor = 'none';
   if (cursorEl) cursorEl.style.display = 'block';
 
-  destroyEncryptedSketch();
+  if (typeof destroyEncryptedSketch === 'function') {
+    destroyEncryptedSketch();
+  }
 
   setTimeout(() => {
     detailOverlay.innerHTML = '';
