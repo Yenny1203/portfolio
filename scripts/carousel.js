@@ -854,12 +854,12 @@ function openDetail(index) {
           </svg>
         </button>
       </div>
+    </div>
 
-      <div class="image-lightbox" aria-hidden="true">
-        <button class="image-lightbox-close" type="button" aria-label="Close expanded image" onclick="closeImageLightbox()">×</button>
-        <div class="image-lightbox-stage">
-          <img class="image-lightbox-media" alt="">
-        </div>
+    <div class="image-lightbox" aria-hidden="true">
+      <button class="image-lightbox-close" type="button" aria-label="Close expanded image" onclick="closeImageLightbox()">×</button>
+      <div class="image-lightbox-stage">
+        <img class="image-lightbox-media" alt="">
       </div>
     </div>
   `;
